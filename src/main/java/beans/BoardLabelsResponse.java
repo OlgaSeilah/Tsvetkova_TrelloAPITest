@@ -11,19 +11,23 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class CompactBoardResponse {
-
+public class BoardLabelsResponse {
     @SerializedName("id")
     @Expose
     private String id;
+
+    @SerializedName("idBoard")
+    @Expose
+    private String idBoard;
 
     @SerializedName("name")
     @Expose
     private String name;
 
-    @SerializedName("closed")
+    @SerializedName("color")
     @Expose
-    private Boolean closed;
+    private String color;
+
 
 
 }

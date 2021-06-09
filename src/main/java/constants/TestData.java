@@ -9,5 +9,7 @@ public class TestData {
     public static final String CLOSED_TRUE = "true";
     public static final Boolean CLOSED_TRUE_BOOLEAN = true;
     public static final String BACKGROUND_COLOR = "backgroundColor";
+    public static final String TEST_LABEL = "LabelName";
+
 
 }

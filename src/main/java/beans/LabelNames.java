@@ -117,6 +117,7 @@ public class LabelNames {
         this.black = black;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

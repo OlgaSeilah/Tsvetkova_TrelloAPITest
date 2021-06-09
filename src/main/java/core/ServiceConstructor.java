@@ -1,11 +1,12 @@
 package core;
 
+import beans.BoardLabelsResponse;
 import beans.CompactBoardResponse;
 import beans.MemberResponse;
 import beans.TrelloBoardResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import constants.UserRights;
+import constants.LabelColour;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -17,7 +18,9 @@ import io.restassured.specification.ResponseSpecification;
 import org.apache.http.HttpStatus;
 import utils.GetDataFromProperties;
 
+import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +29,16 @@ public class ServiceConstructor {
             .getProperties().getProperty("host");
     private final Method requestMethod;
     private final Map<String, String> parameters;
+    private Map<String, String> pathParams;
 
-    public ServiceConstructor (Method requestMethod, Map<String, String> parameters) {
+    public static final URI TRELLO_BOARD_URL = URI.create(GetDataFromProperties
+            .getProperties().getProperty("boards_url"));
+
+
+    public ServiceConstructor (Method requestMethod, Map<String, String> parameters, Map<String, String> pathParams) {
         this.requestMethod = requestMethod;
         this.parameters = parameters;
+        this.pathParams = pathParams;
     }
 
     public static ApiRequestBuilder requestBuilder() {
@@ -40,6 +49,7 @@ public class ServiceConstructor {
     public static class ApiRequestBuilder {
         private final Map<String, String> parameters = new HashMap<>();
         private Method requestMethod = Method.GET;
+        private Map<String, String> pathParams = new LinkedHashMap<>();
 
         public ApiRequestBuilder() {
             parameters.put("key", GetDataFromProperties.getProperties().getProperty("key"));
@@ -51,6 +61,11 @@ public class ServiceConstructor {
             return this;
         }
 
+        public ApiRequestBuilder setPathParams(String field) {
+            pathParams.put("field", field);
+            return this;
+        }
+
         public ApiRequestBuilder setBoardName(String name) {
             parameters.put("name", name);
             return this;
@@ -58,6 +73,10 @@ public class ServiceConstructor {
 
         public ApiRequestBuilder setID(String id) {
             parameters.put("board_id", id);
+            return this;
+        }
+        public ApiRequestBuilder setBoardIdForCreateLabel(String id) {
+            parameters.put("idBoard", id);
             return this;
         }
 
@@ -82,17 +101,51 @@ public class ServiceConstructor {
             return this;
         }
 
-        public ApiRequestBuilder setType(UserRights type) {
-            parameters.put("type", type.type);
+        public ApiRequestBuilder allowBillableGuest(Boolean permission) {
+            parameters.put("allowBillableGuest", permission.toString());
             return this;
         }
 
+        public ApiRequestBuilder setType(String type) {
+            parameters.put("type", type);
+            return this;
+        }
+
+
+        public ApiRequestBuilder setLabelColor(LabelColour color) {
+            parameters.put("color", color.colour);
+            return this;
+        }
+
+
+        public ApiRequestBuilder setLabelName(String name) {
+            parameters.put("name", name);
+            return this;
+        }
+
+
         public ServiceConstructor buildRequest() {
-            return new ServiceConstructor(requestMethod, parameters);
+            return new ServiceConstructor(requestMethod, parameters, pathParams);
         }
 
 
     }
+
+    public Response sendRequestLink() {
+        String pathStr = "";
+        for (String key : pathParams.keySet()) {
+            pathStr += "{" + key + "}/";
+        }
+        return RestAssured
+                .given(requestSpecification())
+                .pathParams(pathParams)
+                .queryParams(parameters)
+                .log().all()
+                .request(requestMethod, pathStr)
+                .prettyPeek();
+    }
+
+
 
     public Response sendRequestPathForDelMember(String buildUrl) {
         String m = API_TRELLO_COM + buildUrl
@@ -102,6 +155,40 @@ public class ServiceConstructor {
                 + "?key=" + parameters.get("key")
                 + "&token=" + parameters.get("token")
                 + "&type=" + "admin";
+
+        return RestAssured
+                .given(requestSpecification())
+                .queryParams(parameters)
+                .log().all()
+                .request(requestMethod, m)
+                .prettyPeek();
+    }
+
+
+String correct ="https://api.trello.com/1/labels?key={{key}}&token={token}&name={{LabelName}}&color={color}&idBoard={boARDiD}";
+String act    ="https://api.trello.com/1/labels?key={key}&token={token}&name={LabName}&color={color}&idBoard=60c0d624b10adb48c9ef5f7b&board_id={id}";
+    public Response sendRequestPathForAddLabel(String buildUrl) {
+        String m = API_TRELLO_COM + buildUrl
+                + "?key=" + parameters.get("key")
+                + "&token=" + parameters.get("token")
+                + "&name=" + parameters.get("name")
+                + "&color=" + parameters.get("color")
+                + "&idBoard=" + parameters.get("idBoard");
+
+        return RestAssured
+                .given(requestSpecification())
+                .queryParams(parameters)
+                .log().all()
+                .request(requestMethod, m)
+                .prettyPeek();
+    }
+
+//    https://api.trello.com/1/boards/{id}/members
+
+    public Response sendRequestPathForGetBoardMember(String buildUrl) {
+        String m = API_TRELLO_COM + buildUrl
+                + parameters.get("board_id")
+                + "/members";
 
         return RestAssured
                 .given(requestSpecification())
@@ -146,8 +233,8 @@ public class ServiceConstructor {
         String createPath = API_TRELLO_COM + buildUrl
                 + "?key=" + parameters.get("key")
                 + "&token=" + parameters.get("token");
-        if (parameters.get("name") != null)
-            createPath += "&name=" + parameters.get("name");
+//        if (parameters.get("name") != null)
+//            createPath += "&name=" + parameters.get("name");
 
         if (parameters.get("board_id") != null)
             createPath = API_TRELLO_COM + buildUrl
@@ -168,6 +255,7 @@ public class ServiceConstructor {
         return new RequestSpecBuilder()
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
+                .setBaseUri(TRELLO_BOARD_URL)
                 .build();
     }
 
@@ -188,6 +276,13 @@ public class ServiceConstructor {
     public static List<MemberResponse> getMembers(Response response) {
         List<MemberResponse> fromJson = new Gson()
                 .fromJson(response.asString().trim(), new TypeToken<List<MemberResponse>>() {
+                }.getType());
+        return fromJson;
+    }
+
+    public static BoardLabelsResponse getLabel(Response response) {
+        BoardLabelsResponse fromJson = new Gson()
+                .fromJson(response.asString().trim(), new TypeToken<BoardLabelsResponse>() {
                 }.getType());
         return fromJson;
     }

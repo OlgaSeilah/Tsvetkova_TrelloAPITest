@@ -3,21 +3,13 @@ package core;
 import constants.TestData;
 import constants.UserRights;
 
-import static constants.BgColors.*;
+import static constants.LabelColour.*;
+import static constants.LabelColour.BLUE;
+import static constants.LabelColour.green;
+import static constants.LabelColour.ORANGE;
+import static constants.LabelColour.RED;
 
 public class DataProvider {
-
-
-    @org.testng.annotations.DataProvider
-    public Object[][] dataForBackgroundColors() {
-        return new Object[][]{
-                {TestData.BACKGROUND_COLOR + "#D29034",ORANGE},
-                {TestData.BACKGROUND_COLOR + "#519839",GREEN},
-                {TestData.BACKGROUND_COLOR + "#838C91",GRAY},
-                {TestData.BACKGROUND_COLOR + "#B04632",RED},
-
-        };
-    }
 
     @org.testng.annotations.DataProvider
     public Object[][] dataForUserRights() {
@@ -26,6 +18,18 @@ public class DataProvider {
                 {UserRights.NORMAL},
                 {UserRights.OBSERVER},
 
+        };
+    }
+
+    @org.testng.annotations.DataProvider
+    public Object[][] dataForLabels() {
+        return new Object[][]{
+                {TestData.TEST_LABEL + "1", green},
+                {TestData.TEST_LABEL + "2",YELLOW},
+                {TestData.TEST_LABEL + "3",ORANGE},
+                {TestData.TEST_LABEL + "4",RED},
+                {TestData.TEST_LABEL + "5",PURPLE},
+                {TestData.TEST_LABEL + "6",BLUE},
         };
     }
 }
