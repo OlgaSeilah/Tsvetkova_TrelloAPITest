@@ -1,0 +1,96 @@
+{
+  "id": "60afcee7ff7ea85936cc832b",
+  "bio": "",
+  "bioData": null,
+  "confirmed": true,
+  "memberType": "normal",
+  "username": "epamhomework",
+  "aaId": "60afcee00dc2a500687af4b5",
+  "activityBlocked": false,
+  "avatarHash": null,
+  "avatarUrl": null,
+  "fullName": "epamHomework",
+  "idEnterprise": null,
+  "idEnterprisesDeactivated": [],
+  "idMemberReferrer": null,
+  "idPremOrgsAdmin": [],
+  "initials": "E",
+  "nonPublic": {},
+  "nonPublicAvailable": true,
+  "products": [],
+  "url": "https://trello.com/epamhomework",
+  "status": "disconnected",
+  "aaBlockSyncUntil": null,
+  "aaEmail": null,
+  "aaEnrolledDate": null,
+  "avatarSource": "none",
+  "credentialsRemovedCount": 0,
+  "domainClaimed": null,
+  "email": "seilah@ya.ru",
+  "gravatarHash": "a842e1a928c05a18b43bc4f4d63b4461",
+  "idBoards": [
+    "60b210b4f55afd28c4f03b82",
+    "60b211cb65f3d917b9803eb6",
+    "60b39dbbfd7cbc264de26a76",
+    "60be29de3a477072dd2fa3bf"
+  ],
+  "idOrganizations": [
+    "60afcf032dc86f832c085c6e"
+  ],
+  "idEnterprisesAdmin": [],
+  "loginTypes": [
+    "atlassian"
+  ],
+  "marketingOptIn": {
+    "optedIn": true,
+    "date": "2021-05-27T17:05:56.605Z"
+  },
+  "messagesDismissed": [
+    {
+      "_id": "60afcf038cf61c34cd5a7701",
+      "name": "team-join-cta-banner-60afcf032dc86f832c085c6e",
+      "count": 3,
+      "lastDismissed": "2021-05-27T16:55:32.071Z"
+    }
+  ],
+  "oneTimeMessagesDismissed": [
+    "sent-possible-new-signup-event",
+    "close-menu-of-first-board",
+    "nusku.views-switcher-upsell-default-open",
+    "team-template-picker-60afcf032dc86f832c085c6e",
+    "team-boards-join-link-banner-60afcf032dc86f832c085c6e"
+  ],
+  "prefs": {
+    "privacy": {
+      "fullName": "public",
+      "avatar": "public"
+    },
+    "sendSummaries": true,
+    "minutesBetweenSummaries": 60,
+    "minutesBeforeDeadlineToNotify": 1440,
+    "colorBlind": false,
+    "locale": "en-US"
+  },
+  "trophies": [],
+  "uploadedAvatarHash": null,
+  "uploadedAvatarUrl": null,
+  "premiumFeatures": [],
+  "isAaMastered": true,
+  "ixUpdate": "251",
+  "limits": {
+    "boards": {
+      "totalPerMember": {
+        "status": "ok",
+        "disableAt": 4500,
+        "warnAt": 4050
+      }
+    },
+    "orgs": {
+      "totalPerMember": {
+        "status": "ok",
+        "disableAt": 850,
+        "warnAt": 765
+      }
+    }
+  }
+}
