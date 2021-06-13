@@ -164,9 +164,6 @@ public class ServiceConstructor {
                 .prettyPeek();
     }
 
-
-String correct ="https://api.trello.com/1/labels?key={{key}}&token={token}&name={{LabelName}}&color={color}&idBoard={boARDiD}";
-String act    ="https://api.trello.com/1/labels?key={key}&token={token}&name={LabName}&color={color}&idBoard=60c0d624b10adb48c9ef5f7b&board_id={id}";
     public Response sendRequestPathForAddLabel(String buildUrl) {
         String m = API_TRELLO_COM + buildUrl
                 + "?key=" + parameters.get("key")
@@ -182,8 +179,6 @@ String act    ="https://api.trello.com/1/labels?key={key}&token={token}&name={La
                 .request(requestMethod, m)
                 .prettyPeek();
     }
-
-//    https://api.trello.com/1/boards/{id}/members
 
     public Response sendRequestPathForGetBoardMember(String buildUrl) {
         String m = API_TRELLO_COM + buildUrl
@@ -233,8 +228,6 @@ String act    ="https://api.trello.com/1/labels?key={key}&token={token}&name={La
         String createPath = API_TRELLO_COM + buildUrl
                 + "?key=" + parameters.get("key")
                 + "&token=" + parameters.get("token");
-//        if (parameters.get("name") != null)
-//            createPath += "&name=" + parameters.get("name");
 
         if (parameters.get("board_id") != null)
             createPath = API_TRELLO_COM + buildUrl
